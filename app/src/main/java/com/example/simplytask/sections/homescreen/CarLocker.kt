@@ -47,10 +47,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simplytask.R
 import com.example.simplytask.models.CarLockerModel
+import com.example.simplytask.screens.home.HomeScreen
+import com.example.simplytask.ui.theme.SimplyTaskTheme
 import kotlinx.coroutines.delay
 
 @Composable
@@ -58,42 +61,82 @@ fun CarLocker(
     carLockerModelList: List<CarLockerModel>,
     loadingProcess: Boolean = false,
     loadingFinished: () -> Unit = {},
-    lockerClicked: (Int?) -> Unit = {}
+    lockerClicked: (Int?) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
 
-    @Composable
-    fun CarLockerItem(carLockerModel: CarLockerModel, loadingProcess: Boolean = false) {
+    Row(
+        modifier = Modifier
+            .background(Color.White)
+            .fillMaxWidth(),
+//            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.Absolute.Center
 
-        val unClickableClarity = if (!carLockerModel.isSelected) 1f else 0.4f
-        val percentage = 1f
-        val color = Color(0xFF40A0DA)
-        val circleColors: List<Color> = if (loadingProcess) listOf(
-            Color(0xFF759391),
-            Color(0xFF34BFA6),
-            Color(0xFF40A0DA)
-        ) else {
-            listOf(
-                Color(0xFF000000),
-                Color(0xFF000000),
-                Color(0xFF000000),
-            )
-        }
-
-        val strokeWidth = 5.dp
-        val animDuration = 5000
-        val animeDelay = 0
-
-        val curPercentage = animateFloatAsState(
-            targetValue = if (loadingProcess) percentage else 0f,
-            animationSpec = tween(
-                durationMillis = animDuration,
-                delayMillis = animeDelay
-            ), label = ""
-        ) {
-            if (it == 1f) {
-                loadingFinished()
+    ) {
+        LazyRow() {
+            items(items = carLockerModelList) {
+                if (it.lockerId == 2) {
+                    CarLockerItem(
+                        carLockerModel = it,
+                        loadingProcess = loadingProcess,
+                        loadingFinished = loadingFinished,
+                        lockerClicked = lockerClicked,
+                        modifier = Modifier.weight(1f)
+                    )
+                } else {
+                    CarLockerItem(
+                        carLockerModel = it,
+                        loadingProcess = false,
+                        loadingFinished = loadingFinished,
+                        lockerClicked = lockerClicked,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
         }
+    }
+
+}
+
+@Composable
+private fun CarLockerItem(
+    carLockerModel: CarLockerModel,
+    loadingProcess: Boolean = false,
+    loadingFinished: () -> Unit = {},
+    lockerClicked: (Int?) -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+
+    val unClickableClarity = if (!carLockerModel.isSelected) 1f else 0.5f
+    val percentage = 1f
+    val color = Color(0xFF40A0DA)
+    val circleColors: List<Color> = if (loadingProcess) listOf(
+        Color(0xFF759391),
+        Color(0xFF34BFA6),
+        Color(0xFF40A0DA)
+    ) else {
+        listOf(
+            Color(0xFF000000),
+            Color(0xFF000000),
+            Color(0xFF000000),
+        )
+    }
+
+    val strokeWidth = 4.dp
+    val animDuration = 5000
+    val animeDelay = 0
+
+    val curPercentage = animateFloatAsState(
+        targetValue = if (loadingProcess) percentage else 0f,
+        animationSpec = tween(
+            durationMillis = animDuration,
+            delayMillis = animeDelay
+        ), label = ""
+    ) {
+        if (it == 1f) {
+            loadingFinished()
+        }
+    }
 
 //        Row(
 //            modifier = Modifier
@@ -103,80 +146,72 @@ fun CarLocker(
 //            verticalAlignment = Alignment.CenterVertically
 //
 //        ) {
-        Column(
-            modifier = Modifier
-                    .fillMaxHeight().padding(start = 10.dp),
+    Column(
+        modifier = modifier,
 //            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(modifier = Modifier.clip(CircleShape)) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box() {
 
-                Box(modifier = Modifier.size(58.dp)) {
+            Box(modifier = Modifier
+                .size(68.dp).padding(8.dp)
+                .clip(CircleShape),contentAlignment = Alignment.Center) {
 
-                    Canvas(modifier = Modifier
-                        .size(58.dp)
-                        .alpha(unClickableClarity)
-                        .clickable(carLockerModel.isClickable) {
-                            if (carLockerModel.lockerId == 1 || carLockerModel.lockerId == 2)
-                                lockerClicked(carLockerModel.lockerId)
-                        }) {
-                        drawArc(
-                            brush = Brush.sweepGradient(circleColors),
-                            0f,
-                            sweepAngle = if (loadingProcess) {
-                                360 * curPercentage.value
-                            } else {
-                                360f
-                            },
-                            useCenter = false,
-                            style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
-                        )
-                    }
-                }
-                Icon(
-                    modifier = Modifier
-                        .width(30.dp)
-                        .height(30.dp)
-                        .alpha(unClickableClarity)
-                        .align(Alignment.Center),
-                    imageVector = ImageVector.vectorResource(
-                        carLockerModel.lockerIcon ?: R.drawable.ic_locker_locked
-                    ),
-                    contentDescription = "Icon Locker Locked",
-                    tint = Color.Black
-                )
-            }
-            Text(
-                text = stringResource(carLockerModel.lockerName ?: R.string.top_bar_car_name),
-                fontSize = 12.sp,
-                lineHeight = 18.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFF191919),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .width(56.dp)
-                    .padding(top = 2.dp)
+                Canvas(modifier = Modifier
+                    .size(68.dp)
                     .alpha(unClickableClarity)
-                    .align(Alignment.CenterHorizontally),
-                maxLines = 1
+                    .clickable(carLockerModel.isClickable) {
+                        if (carLockerModel.lockerId == 1 || carLockerModel.lockerId == 2)
+                            lockerClicked(carLockerModel.lockerId)
+                    }) {
+                    drawArc(
+                        brush = Brush.sweepGradient(circleColors),
+                        0f,
+                        sweepAngle = if (loadingProcess) {
+                            360 * curPercentage.value
+                        } else {
+                            360f
+                        },
+                        useCenter = false,
+                        style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+                    )
+                }
+            }
+            Icon(
+                modifier = Modifier
+                    .width(28.dp)
+                    .height(28.dp)
+                    .alpha(unClickableClarity)
+                    .align(Alignment.Center),
+                imageVector = ImageVector.vectorResource(
+                    carLockerModel.lockerIcon ?: R.drawable.ic_locker_locked
+                ),
+                contentDescription = "Icon Locker Locked",
+                tint = Color.Black
             )
         }
-//        }
+        Text(
+            text = stringResource(carLockerModel.lockerName ?: R.string.top_bar_car_name),
+            fontSize = 12.sp,
+            lineHeight = 18.sp,
+            fontWeight = FontWeight(500),
+            color = Color(0xFF020202),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .width(56.dp)
+                .padding(top = 1.dp)
+                .alpha(unClickableClarity)
+                .align(Alignment.CenterHorizontally)
+            ,
+            maxLines = 1
+        )
     }
+}
 
-    @Composable
-    fun ListItem(carLockerModelList: List<CarLockerModel>) {
-        LazyRow() {
-            items(items = carLockerModelList) {
-                if (it.lockerId == 2) {
-                    CarLockerItem(it, loadingProcess)
-                } else {
-                    CarLockerItem(it)
-                }
-            }
-        }
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    SimplyTaskTheme {
+        HomeScreen()
     }
-
-    ListItem(carLockerModelList)
-
 }

@@ -6,9 +6,9 @@
     <string name="city_name">Irvine</string>
     <string name="est_range">Est. Range</string>
     <string name="speed_value">mi</string>
-    <string name="lock">Lock\n</string>
+    <string name="lock">Lock</string>
     <string name="unlock">Unlock</string>
     <string name="climate">Climate</string>
     <string name="charge">Charge</string>
-    <string name="lights">Lights\n</string>
+    <string name="lights">Lights</string>
 </resources>

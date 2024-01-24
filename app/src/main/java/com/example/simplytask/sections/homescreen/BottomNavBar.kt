@@ -47,106 +47,37 @@ import com.example.simplytask.screens.support.SupportScreen
 @Composable
 fun BottomNavBar() {
     val navController = rememberNavController()
+
     Scaffold(
-//        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
+        modifier = Modifier,
         bottomBar = {
-            BottomNavigation {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-
-                val bottomNavBarItems = listOf(
-                    BottomNavItem.Home,
-                    BottomNavItem.Vehicle,
-                    BottomNavItem.Map,
-                    BottomNavItem.Support,
-                    BottomNavItem.Settings,
-                )
-
-                bottomNavBarItems.forEach { screen ->
-
-                    var isNavSelected by remember { mutableStateOf(true) }
-
-                    // surfaceColor will be updated gradually from one color to the other
-                    val surfaceColor by animateColorAsState(
-                        if (isNavSelected) Color.Black else Color.Red,
-                        label = "",
-                    )
-                    BottomNavigationItem(
-                        modifier = Modifier
-                            .shadow(
-                                elevation = 10.dp,
-                                spotColor = Color(0x26000000),
-                                ambientColor = Color(0x26000000)
-                            )
-                            .padding(1.dp)
-                            .background(color = Color(0xFF749C35)),
-                        icon = {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(screen.icon),
-                                contentDescription = screen.route,
-                                modifier = Modifier
-                                    .width(25.dp)
-                                    .height(25.dp)
-                                    .padding(1.dp),
-                                tint = surfaceColor
-                            )
-                        },
-                        label = {
-                            Text(
-                                screen.label,
-                                modifier = Modifier.padding(top = 2.dp, bottom = 2.dp),
-                                style = TextStyle(
-                                    fontSize = 12.sp,
-                                    lineHeight = 18.sp,
-                                ),
-                                fontWeight = if (!isNavSelected) {
-                                    FontWeight(700)
-                                } else {
-                                    FontWeight(400)
-                                },
-                                color = Color(0xFF6A7081),
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        selected = currentDestination?.hierarchy?.any {
-                            isNavSelected =
-                                it.route != screen.route;
-                            it.route == screen.route
-                        } == true,
-                        onClick = {
-                            isNavSelected = !isNavSelected
-                            navController.navigate(screen.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
-                                launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
-                                restoreState = true
-                            }
-                        }
-                    )
+            BottomNavigation(
+                navController = navController
+            )
+        }
+    ) {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            NavHost(
+                navController = navController,
+                modifier = Modifier.padding(it),
+                startDestination = BottomNavItem.Home.route
+            ) {
+                composable(BottomNavItem.Home.route) {
+                    HomeScreen()
+                }
+                composable(BottomNavItem.Vehicle.route) {
+                    CarScreen()
+                }
+                composable(BottomNavItem.Map.route) {
+                    MapScreen()
+                }
+                composable(BottomNavItem.Support.route) {
+                    SupportScreen()
+                }
+                composable(BottomNavItem.Settings.route) {
+                    SettingsScreen()
                 }
             }
         }
-    ) { innerPadding ->
-        Surface(modifier = Modifier.fillMaxSize()) {
-            NavHost(
-                navController,
-                modifier = Modifier.padding(innerPadding),
-                startDestination = BottomNavItem.Home.route
-            ) {
-                composable(BottomNavItem.Home.route) { HomeScreen() }
-                composable(BottomNavItem.Vehicle.route) { CarScreen() }
-                composable(BottomNavItem.Vehicle.route) { MapScreen() }
-                composable(BottomNavItem.Vehicle.route) { SupportScreen() }
-                composable(BottomNavItem.Vehicle.route) { SettingsScreen() }
-            }
-        }
     }
-
 }

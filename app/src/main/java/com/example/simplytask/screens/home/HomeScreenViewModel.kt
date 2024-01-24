@@ -107,7 +107,7 @@ class HomeScreenViewModel : ViewModel() {
             CarLockerModel(
                 lockerId = 1,
                 lockerName = R.string.lock,
-                lockerIcon = R.drawable.ic_locker_locked,
+                lockerIcon = R.drawable.ic_locker,
                 isSelected = true
             ),
             CarLockerModel(

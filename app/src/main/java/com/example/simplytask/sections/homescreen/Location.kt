@@ -1,6 +1,7 @@
 package com.example.simplytask.sections.homescreen
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,10 +14,10 @@ import com.example.simplytask.R
 @Composable
 fun Location() {
     Text(
-//        text = ("${R.string.city_name}., ${R.string.state_name}").toString(),
         text = "${stringResource(id = R.string.city_name)}, ${stringResource(id = R.string.state_name)}",
         fontSize = 14.sp,
         lineHeight = 16.sp,
+        color = MaterialTheme.colorScheme.onTertiary,
         fontWeight = FontWeight(500),
         modifier = Modifier.padding(start = 4.dp, bottom = 1.dp)
     )

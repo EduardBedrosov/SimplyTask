@@ -33,11 +33,10 @@ class HomeScreenViewModel : ViewModel() {
 
         disableActiveLocks()
 
-        if (lockersId == 1){
+        if (lockersId == 1) {
             lockedCarState()
-        }else{
+        } else {
             updateState(
-//                carLockerModelList = _state.value.carLockerModelList,
                 showAlertBox = true
             )
         }
@@ -47,7 +46,6 @@ class HomeScreenViewModel : ViewModel() {
     fun unlockingCar() {
 
         updateState(
-//            carLockerModelList = _state.value.carLockerModelList,
             showSnackBar = true,
             loadingProcess = true,
             snackBarModel = snackBarDefaultModel[0]
@@ -94,8 +92,8 @@ class HomeScreenViewModel : ViewModel() {
     }
 
     private fun getSnackBarModel(): List<SnackBarModel> {
-        val tempStringMessage: String = "Waiting Ariya to unlock"
-        val tempStringMessage2: String = "Ariya unlocked"
+        val tempStringMessage = "Waiting Ariya to unlock"
+        val tempStringMessage2 = "Ariya unlocked"
         return listOf(
             SnackBarModel(tempStringMessage, false),
             SnackBarModel(tempStringMessage2, true)
@@ -137,7 +135,7 @@ class HomeScreenViewModel : ViewModel() {
         )
     }
 
-    private fun changeActiveLock(carLockerModel: List<CarLockerModel> = emptyList(), lockersId: Int? = null) {
+    private fun changeActiveLock() {
         _state.value.carLockerModelList.forEach {
             it.isSelected = false
             it.isClickable = true
@@ -151,6 +149,7 @@ class HomeScreenViewModel : ViewModel() {
             it.isClickable = false
         }
     }
+
     private fun defaultActiveLocks() {
         _state.value.carLockerModelList.forEach {
             it.isSelected = false

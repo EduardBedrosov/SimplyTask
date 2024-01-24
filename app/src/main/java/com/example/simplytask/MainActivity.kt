@@ -9,9 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.rememberNavController
-import com.example.simplytask.sections.homescreen.BottomNavBar
-import com.example.simplytask.ui.theme.PrimaryWhite
+import com.example.simplytask.sections.homescreen.AppScreen
 import com.example.simplytask.ui.theme.SimplyTaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.onPrimary
 
                 ) {
-                    BottomNavBar()
+                    AppScreen()
                 }
 
             }

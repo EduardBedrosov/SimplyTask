@@ -28,10 +28,10 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = Purple40,
     secondary = ActiveBlueDark,
     onSecondary = PurpleGrey40,
-    background = PrimaryBlack,
-    onBackground = Black,
-    tertiary =  PrimaryWhite,
-    onTertiary =  White
+    background = PrimaryWhite,
+    onBackground = White,
+    tertiary = PrimaryBlack,
+    onTertiary = Black
 )
 
 @Composable
@@ -56,10 +56,12 @@ fun SimplyTaskTheme(
     MaterialTheme(
         colorScheme = LightColorScheme,
         typography = Typography
-    ){
+    ) {
         Box(
-            modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colorScheme.background)
-        ){
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+        ) {
             content()
         }
     }

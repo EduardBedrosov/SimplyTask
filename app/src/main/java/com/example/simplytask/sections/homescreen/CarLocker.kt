@@ -154,11 +154,11 @@ private fun CarLockerItem(
         Box() {
 
             Box(modifier = Modifier
-                .size(68.dp).padding(8.dp)
+                .size(72.dp).padding(8.dp)
                 .clip(CircleShape),contentAlignment = Alignment.Center) {
 
                 Canvas(modifier = Modifier
-                    .size(68.dp)
+                    .size(72.dp)
                     .alpha(unClickableClarity)
                     .clickable(carLockerModel.isClickable) {
                         if (carLockerModel.lockerId == 1 || carLockerModel.lockerId == 2)

@@ -41,7 +41,7 @@ fun TopBar() {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+//            titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         modifier = Modifier.padding(top = 14.dp),
         title = {

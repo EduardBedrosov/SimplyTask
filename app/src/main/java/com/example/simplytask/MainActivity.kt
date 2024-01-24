@@ -3,6 +3,7 @@ package com.example.simplytask
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.simplytask.sections.homescreen.BottomNavBar
+import com.example.simplytask.ui.theme.PrimaryWhite
 import com.example.simplytask.ui.theme.SimplyTaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,8 +23,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             SimplyTaskTheme() {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.onPrimary),
+//                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.onPrimary
+
                 ) {
                     BottomNavBar()
                 }

@@ -68,7 +68,7 @@ fun HomeScreen(
     }
     LaunchedEffect(key1 = homeScreenState.showSnackBar, block = {
         snackBarDelay = homeScreenState.showSnackBar
-        delay(10000)
+        delay(8500)
         snackBarDelay = false
     })
 
@@ -124,7 +124,11 @@ fun HomeScreen(
                         .height(172.dp),
                     contentScale = ContentScale.FillBounds
                 )
-                Box(modifier = Modifier.padding(top = 274.dp)) {
+                Box(
+                    modifier = Modifier
+                        .padding(top = 260.dp)
+                        .align(Alignment.CenterHorizontally)
+                ) {
                     CarLocker(
                         carLockerModelList = homeScreenState.carLockerModelList,
                         loadingProcess = homeScreenState.loadingProcess,

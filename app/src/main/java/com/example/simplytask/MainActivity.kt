@@ -20,7 +20,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SimplyTaskTheme() {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     BottomNavBar()
+                }
+
             }
         }
     }

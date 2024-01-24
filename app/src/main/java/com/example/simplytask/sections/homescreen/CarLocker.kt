@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -62,11 +64,7 @@ fun CarLocker(
     @Composable
     fun CarLockerItem(carLockerModel: CarLockerModel, loadingProcess: Boolean = false) {
 
-
-
-
         val unClickableClarity = if (!carLockerModel.isSelected) 1f else 0.4f
-
         val percentage = 1f
         val color = Color(0xFF40A0DA)
         val circleColors: List<Color> = if (loadingProcess) listOf(
@@ -91,85 +89,84 @@ fun CarLocker(
                 durationMillis = animDuration,
                 delayMillis = animeDelay
             ), label = ""
-        ){
+        ) {
             if (it == 1f) {
                 loadingFinished()
             }
         }
 
-        Row(
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(start = 18.dp),
+//            horizontalArrangement = Arrangement.Center,
+//            verticalAlignment = Alignment.CenterVertically
+//
+//        ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 18.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-
+                    .fillMaxHeight().padding(start = 10.dp),
+//            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column {
-                Box(modifier = Modifier.clip(CircleShape)) {
+            Box(modifier = Modifier.clip(CircleShape)) {
 
-                    Box(modifier = Modifier.size(60.dp)) {
+                Box(modifier = Modifier.size(58.dp)) {
 
-                        Canvas(modifier = Modifier
-                            .size(60.dp)
-                            .alpha(unClickableClarity)
-                            .clickable(carLockerModel.isClickable) {
-                                if (carLockerModel.lockerId == 1 || carLockerModel.lockerId == 2)
-                                    lockerClicked(carLockerModel.lockerId)
-                            }) {
-                            drawArc(
-                                brush = Brush.sweepGradient(circleColors),
-                                0f,
-                                sweepAngle = if (loadingProcess) {
-                                    360 * curPercentage.value
-                                } else {
-                                    360f
-                                },
-                                useCenter = false,
-                                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
-                            )
-                        }
-                    }
-                    Icon(
-                        modifier = Modifier
-                            .width(32.dp)
-                            .height(32.dp)
-                            .alpha(unClickableClarity)
-                            .align(Alignment.Center),
-                        imageVector = ImageVector.vectorResource(
-                            carLockerModel.lockerIcon ?: R.drawable.ic_locker_locked
-                        ),
-                        contentDescription = "Icon Locker Locked",
-                        tint = Color(R.color.black)
-                    )
-                }
-                Text(
-                    text = stringResource(carLockerModel.lockerName ?: R.string.top_bar_car_name),
-                    fontSize = 12.sp,
-                    lineHeight = 18.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF191919),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .width(56.dp)
-                        .padding(top = 2.dp)
+                    Canvas(modifier = Modifier
+                        .size(58.dp)
                         .alpha(unClickableClarity)
-                        .align(Alignment.CenterHorizontally),
-                    maxLines = 1
+                        .clickable(carLockerModel.isClickable) {
+                            if (carLockerModel.lockerId == 1 || carLockerModel.lockerId == 2)
+                                lockerClicked(carLockerModel.lockerId)
+                        }) {
+                        drawArc(
+                            brush = Brush.sweepGradient(circleColors),
+                            0f,
+                            sweepAngle = if (loadingProcess) {
+                                360 * curPercentage.value
+                            } else {
+                                360f
+                            },
+                            useCenter = false,
+                            style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+                        )
+                    }
+                }
+                Icon(
+                    modifier = Modifier
+                        .width(30.dp)
+                        .height(30.dp)
+                        .alpha(unClickableClarity)
+                        .align(Alignment.Center),
+                    imageVector = ImageVector.vectorResource(
+                        carLockerModel.lockerIcon ?: R.drawable.ic_locker_locked
+                    ),
+                    contentDescription = "Icon Locker Locked",
+                    tint = Color.Black
                 )
-
             }
+            Text(
+                text = stringResource(carLockerModel.lockerName ?: R.string.top_bar_car_name),
+                fontSize = 12.sp,
+                lineHeight = 18.sp,
+                fontWeight = FontWeight(400),
+                color = Color(0xFF191919),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(56.dp)
+                    .padding(top = 2.dp)
+                    .alpha(unClickableClarity)
+                    .align(Alignment.CenterHorizontally),
+                maxLines = 1
+            )
         }
+//        }
     }
 
     @Composable
     fun ListItem(carLockerModelList: List<CarLockerModel>) {
-        LazyRow(
-            Modifier
-                .fillMaxWidth()
-                .padding(4.dp)
-                .background(color = Color(0x00EBEBEB))
-        ) {
+        LazyRow() {
             items(items = carLockerModelList) {
                 if (it.lockerId == 2) {
                     CarLockerItem(it, loadingProcess)

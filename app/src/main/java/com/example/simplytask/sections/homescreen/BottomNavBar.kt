@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,7 +48,7 @@ import com.example.simplytask.screens.support.SupportScreen
 fun BottomNavBar() {
     val navController = rememberNavController()
     Scaffold(
-        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
+//        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
         bottomBar = {
             BottomNavigation {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -137,8 +137,8 @@ fun BottomNavBar() {
         Surface(modifier = Modifier.fillMaxSize()) {
             NavHost(
                 navController,
-                startDestination = BottomNavItem.Home.route,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(innerPadding),
+                startDestination = BottomNavItem.Home.route
             ) {
                 composable(BottomNavItem.Home.route) { HomeScreen() }
                 composable(BottomNavItem.Vehicle.route) { CarScreen() }
